@@ -1,0 +1,108 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Curreny multiplier </title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+        <div class="container">
+          <div class="row"><h3>Currency Multiplier</h3></div>
+          <style>
+            h3 {
+                  color: rgb(231, 197, 135);
+                         }
+          </style>
+          <div class="row">
+              <input type="text" id="from" placeholder="From:" class="u-full-width">
+            <select id="fromCurrency" class="u-full-width"></select>
+          </div>
+          <div class="row">
+              <label>To:</label>
+              <select id="toCurrency" class="u-full-width"></select>
+          </div>
+          <div class="row">
+            <button id="btnConvert" class="u-full-width">CONVERT</button>
+            <p id="output" class="u-full-width"></p>
+          </div>
+        </div>
+      
+      <script>
+          let amount = document.querySelector("#amount");
+          let fromCurrency = document.querySelector("#fromCurrency");
+          let toCurrency = document.querySelector("#toCurrency");
+          let btnConvert = document.querySelector('#btnConvert');
+    
+          let url = 'https://free.currencyconverterapi.com/api/v5/currencies';
+    
+           fetch( url,{ method : "GET"})
+                .then( function(response){ 
+                    return response.json();
+                })
+                .then( function(results){
+                    for(let result in results){
+                      for(let id in results[result]){
+                          let optionA = `
+                          <option value="${results[result][id]['id']}">
+                             ${results[result][id]['currencyName']} (${results[result][id]['id']})
+                          </option>
+                          `;
+                          let optionB = `
+                          <option value="${results[result][id]['id']}">
+                             ${results[result][id]['currencyName']} (${results[result][id]['id']})
+                          </option>
+                          `;
+                         fromCurrency.innerHTML += optionA;
+                         toCurrency.innerHTML += optionB;
+                     }
+                   }
+                })
+                .catch( function(error){
+                    console.log(error);
+                });
+                
+       //  execute convertCurrency function
+       btnConvert.addEventListener("click", convertCurrency);
+    
+       function convertCurrency(){
+            let query = fromCurrency.value + '_' + toCurrency.value;
+    
+            fetch("https://free.currencyconverterapi.com/api/v5/convert?q=" + query + "&compact=ultra", {method : "GET"})
+              .then(response => response.json())
+              .then(data => {
+               for(con in data){
+                  console.log(data[con]);
+                  output.innerHTML = `<input type="text" class="u-full-width" value="${data[con]}">`;
+               }
+              })
+              .catch(error => console.log(error));
+    
+         console.log(fromCurrency.value);
+         console.log(toCurrency.value);
+       }
+       //service worker registering 
+        if('serviceWorker' in navigator) {
+          navigator.serviceWorker
+                   .register('/sw.js')
+                   .then(function() { console.log("Service Worker Registered"); });
+                
+        }
+        const cacheAvailable = 'caches' in self;
+        const request = new Request('/images/sample1.jpg');
+        const imageBlob = new Blob([data], {type: 'image/jpeg'});
+        const imageResponse = new Response(imageBlob);
+
+        const stringResponse = new Response('currency multiplier');
+        const options = {
+               headers: {
+               'Content-Type': 'application/json'
+                   }
+                     }
+        const jsonResponse = new Response('{}', options);
+      </script>
+      <script src="indexdb.js"></script>
+      <script src="application.min.js"></script>
+
+    </body>
+    </html>

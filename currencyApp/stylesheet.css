@@ -1,0 +1,33 @@
+
+html {color: blue;
+}
+h3 {
+    color: rgb(231, 197, 135);
+}
+p {
+    color: red;
+    text-align: center;
+}
+
+* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
+
+#page-wrapper {
+  width: 550px;
+  margin: 2.5em auto;
+  background: #FFF;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+
+#new-todo-form {
+  padding: 0.5em;
+  background: #0088CC;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+
+input[type="checkbox"] {
+  margin-right: 10px;
+}
